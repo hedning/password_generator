@@ -51,7 +51,7 @@ parser.add_argument('--generate', '-g', dest='generate', action='store_const',
 		default=get_salt, const=generate,
 		help='will generate a new password, ie. a new salt')
 parser.add_argument('--length', '-l', dest='length', type=int, nargs=1, default=-1,
-		help='the length of the hash')
+		help='the length of the hash, implies --generate')
 parser.add_argument('--store', '-s', dest='store', action='store_true',
 		help='will store the hash, so next time you call prog with site it will not prompt for the master password NYI')
 parser.add_argument('--clean', dest='clean', action='store_true',
@@ -61,6 +61,9 @@ parser.add_argument('--undo', '-u', dest='undo', action='store_true',
 
 options = parser.parse_args()
 site = options.site[0]
+
+if options.length > 0:
+	options.generate = generate
 
 salts, index, info = options.generate(site)
 
